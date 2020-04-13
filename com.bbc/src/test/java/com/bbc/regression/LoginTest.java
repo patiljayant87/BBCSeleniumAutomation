@@ -1,5 +1,10 @@
 package com.bbc.regression;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -24,6 +29,33 @@ public class LoginTest {
 		boolean condition=true;
 		Assert.assertTrue(condition);
 		driver.close();
+	}
+	public static Object[][] readUserData(String SheetName) throws IOException
+	{
+		FileInputStream ip = new FileInputStream("E:\\Selenium Study\\PageObjectModel\\src\\com\\facebook\\testData\\TestData.xlsx");
+		XSSFWorkbook wb = new XSSFWorkbook(ip);
+		XSSFSheet sh = wb.getSheet("TestData");
+		
+		//rows
+		int totalRows=sh.getPhysicalNumberOfRows();
+		//columns
+		int totalColumns=sh.getRow(0).getPhysicalNumberOfCells();
+		
+		//int arr[][] = new int[totalRows][totalColumns];
+		Object arr[][]= new Object[totalRows][totalColumns];
+		
+		
+		for(int i=0;i<totalRows;i++)//rows
+		{
+			for(int j=0;j<totalColumns;j++)//columns
+			{
+			//sh.getRow(i).getCell(j).getStringCellValue();
+				arr[i][j]=sh.getRow(i).getCell(j).getStringCellValue();
+				
+			}
+		}
+
+		return arr;
 	}
 
 }
